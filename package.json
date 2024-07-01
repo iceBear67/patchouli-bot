@@ -1,0 +1,35 @@
+{
+  "name": "patchouli-bot",
+  "version": "0.1.0",
+  "main": "dist/main.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "bot": "yarn run build && node ./dist/main.js",
+    "dev": "tsx ./src/main.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@grammyjs/emoji": "^1.2.0",
+    "@huggingface/inference": "^2.7.0",
+    "@minatojs/driver-sqlite": "^4.4.1",
+    "@mozilla/readability": "^0.5.0",
+    "axios": "^1.7.2",
+    "cordis": "^3.17.4",
+    "grammy": "^1.25.2",
+    "jsdom": "^24.1.0",
+    "minato": "^3.4.3",
+    "node-cache": "^5.1.2",
+    "openai": "^4.52.2",
+    "reggol": "^1.7.0",
+    "smol-toml": "^1.2.2",
+    "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "@types/jsdom": "^21.1.7",
+    "tsx": "^4.16.0",
+    "typescript": "^5.5.2"
+  },
+  "packageManager": "yarn@4.3.1"
+}

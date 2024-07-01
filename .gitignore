@@ -1,0 +1,9 @@
+.idea/
+.yarn/
+dist/
+node_modules/
+.pnp.*
+config.toml
+data.db
+prompt.txt
+*.tsbuildinfo
