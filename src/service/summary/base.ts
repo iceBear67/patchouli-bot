@@ -38,9 +38,9 @@ export abstract class SimpleSummaryService implements SummaryService {
         let reader = new Readability(dom.window.document);
         let article = reader.parse()
         let content = article?.textContent
-        if (!content) {
+        if (!article || !content) {
             this.logger.warn(`Cannot parse ${url}`)
-            updater('FAILED to parse article! please contact bot administrator or the bot is banned from this site.')
+            updater('\nFAILED to parse article! please contact bot administrator or the bot is banned from this site.')
             return
         }
         return this.summaryFromArticle(article!.title, content, updater)

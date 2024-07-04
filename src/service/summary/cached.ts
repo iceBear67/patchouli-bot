@@ -32,13 +32,23 @@ export class CachedSummaryService implements SummaryService {
         } catch (e) {
             return this.delegatedObject.summaryFromURL(url, emitter)
                 .then(msg => {
-                    this.logger.info(`Saving summary for ${url}`)
-                    this.storage.recordSummary(new SummaryRecord(url, msg))
-                    this.fetchingUrls[url].forEach(async it => {
-                        it(msg, undefined)
-                        await sleep(2000) // prevent request flooding
-                    })
-                    this.fetchingUrls.delete(url)
+                    if(msg.trim().length==0){
+                        this.logger.error(`Failed to summarize ${url}`)
+                        this.fetchingUrls[url].forEach(async it => {
+                            it(`Failed to summarize ${url}`, undefined)
+                            await sleep(2000) // prevent request flooding
+                        })
+                        emitter(`Failed to summarize ${url}`)
+                        throw new Error(`Failed to summarize ${url}`)
+                    }else{
+                        this.logger.info(`Saving summary for ${url}`)
+                        this.storage.recordSummary(new SummaryRecord(url, msg))
+                        this.fetchingUrls[url].forEach(async it => {
+                            it(msg, undefined)
+                            await sleep(2000) // prevent request flooding
+                        })
+                        this.fetchingUrls.delete(url)
+                    }
                     return msg
                 })
         }
