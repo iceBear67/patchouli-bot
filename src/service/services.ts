@@ -10,5 +10,5 @@ export interface StorageService {
 }
 
 export interface SummaryService {
-    summaryFromURL(url: string, emitter: (message: string) => void): Promise<string>
+    summaryFromURL(url: string, emitter: (message: string) => boolean): Promise<string>
 }

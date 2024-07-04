@@ -6,6 +6,7 @@ export class PatchouliConfig {
         public ignoreAbnormalStatusCode: boolean = true,
         public backend: "openai" | "huggingface" = "huggingface",
         public mode: "summary" | "textgen" = "textgen",
+        public trustedChats: Array<number> = [0],
         public cacheConfig: CacheSetting = new CacheSetting(300),
         public modelConfig: ModelConfig = new ModelConfig("", "", "")
     ) {

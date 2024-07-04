@@ -13,7 +13,7 @@ export class CachedSummaryService implements SummaryService {
     ) {
     }
 
-    async summaryFromURL(url: string, emitter: (message: string) => void): Promise<string> { // 好像能用又好像不能用的擦车
+    async summaryFromURL(url: string, emitter: (message: string) => boolean): Promise<string> { // 好像能用又好像不能用的擦车
         url = url.trim()
         if (this.fetchingUrls.has(url)) {
             this.logger.info(`Waiting another running promise for ${url}`)

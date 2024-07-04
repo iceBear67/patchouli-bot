@@ -30,9 +30,9 @@ export class OpenAISummaryService extends SimpleSummaryService {
             }
         })
         let total = ""
-        let update = (str: string) => {
+        let update = (str: string) => boolean => {
             total += str
-            updater(str)
+            return updater(str)
         }
         let buf = ""
         let totalTokens
@@ -41,7 +41,10 @@ export class OpenAISummaryService extends SimpleSummaryService {
             let out = chunk.choices[0]?.delta?.content || ''
             buf += out
             if (buf.length >= 100) {
-                update(buf)
+                if (!update(buf)) {
+                    buf = ""
+                    break;
+                }
                 buf = ""
             }
         }

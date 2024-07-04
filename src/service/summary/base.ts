@@ -22,7 +22,7 @@ export abstract class SimpleSummaryService implements SummaryService {
     ) {
     }
 
-    async summaryFromURL(url: string, updater: (message: string) => void): Promise<string> {
+    async summaryFromURL(url: string, updater: (message: string) => boolean): Promise<string> {
         this.logger.info(`Fetching document from ${url}`)
         let resp = await this.axios.get(url)
         if (resp.status != 200) {
@@ -50,6 +50,6 @@ export abstract class SimpleSummaryService implements SummaryService {
         return this.config.prompt.replace('%title%', title).replace('%article%', content)
     }
 
-    abstract summaryFromArticle(title: string, content: string, updater: (message: string) => void): Promise<string>
+    abstract summaryFromArticle(title: string, content: string, updater: (message: string) => boolean): Promise<string>
 
 }

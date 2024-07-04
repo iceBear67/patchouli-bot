@@ -43,11 +43,11 @@ export class HuggingFaceSummaryService extends SimpleSummaryService {
             return Promise.reject("Inference API is improperly configured. Please check server log and fix.")
         }
         let total = ""
-        let update = (str: string) => {
+        let update = (str: string) => boolean => {
             total += str
-            updater(str)
+            return updater(str)
         }
-        let usedTokens
+        let usedTokens = 0
         if (this.mode == "textgen") {
             let buf = "";
             for await (const output of this.hf.textGenerationStream({
@@ -61,7 +61,10 @@ export class HuggingFaceSummaryService extends SimpleSummaryService {
                 buf += output.token.text
                 let shouldDisplay = buf.length > 100
                 if (shouldDisplay) {
-                    update(buf)
+                    if (!update(buf)) {
+                        buf = ""
+                        break;
+                    }
                     buf = ""
                 }
             }

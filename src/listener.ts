@@ -23,6 +23,7 @@ export class Listener {
         this.tgBot.on(['channel_post:entities:url', 'channel_post:entities:hashtag'], this.onMessage.bind(this))
         this.tgBot.command('summary', this.onSummaryCommand.bind(this))
         this.tgBot.command('invalidate', this.onInvalidateCommand.bind(this))
+        this.tgBot.command('id', ctx => ctx.reply(String(ctx.chatId)))
         this.tgBot.on(['message'], this.onMessage.bind(this))
     }
 
@@ -83,6 +84,11 @@ export class Listener {
         this.messageLogger.info(`[${ctx.chat?.title!}]: ${link}`)
         if (!this.isURLValid(link)) {
             await this.replyTo("That seemed like a bad link.", ctx, replyingMessage)
+            return
+        }
+        if(ctx.chatId !in this.config.trustedChats){
+            await this.replyTo("You're not allowed to do this.", ctx, replyingMessage)
+            return
         }
         await this.replyTo("Patchouli is reading this article, please wait...", ctx, replyingMessage)
             .then(msg => this._handleSummary(link, msg).then())
@@ -131,14 +137,15 @@ export class Listener {
         let text = "";
         this.summaryService.summaryFromURL(
             link, update => {
-                if (!update || update.replaceAll(' ', "").length == 0) return
-                if (text.length > 2048) return;
+                if (!update || update.replaceAll(' ', "").length == 0) return true
+                if (text.length > 2048) return false;
                 text += update
                 if (text.length > 2048) {
                     text += "... (Interrupted due to abnormal length of response)"
-                    return;
+                    return false;
                 }
                 this.tgBot.api.editMessageText(message.chat.id, message.message_id, text)
+                return true
             })
             .then(() => this.messageLogger.info(`${link} is successfully summarized!`))
             .catch(err => {
