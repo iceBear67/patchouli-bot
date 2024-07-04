@@ -86,7 +86,7 @@ export class Listener {
             await this.replyTo("That seemed like a bad link.", ctx, replyingMessage)
             return
         }
-        if(ctx.chatId !in this.config.trustedChats){
+        if(!this.config.trustedChats.includes(ctx.chatId)){
             await this.replyTo("You're not allowed to do this.", ctx, replyingMessage)
             return
         }
