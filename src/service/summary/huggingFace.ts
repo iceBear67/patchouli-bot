@@ -38,42 +38,6 @@ export class HuggingFaceSummaryService extends SimpleSummaryService {
         }
     }
 
-    //   async summaryFromURL(url: string, updater: (message: string) => void) {
-    //console.log(this.config.prompt.replace('%title%',article!.title).replace('%article%',content))
-    //      updater(`${article!.title} \n`)
-    // for await (const chunk of this.hf.chatCompletionStream({
-    //     model: this.config.model,
-    //     messages: [
-    //         { role: "user", content: this.config.prompt.replace('%title%',article!.title).replace('%article%',content) },
-    //     ]
-    // })) {
-    //     if (chunk.choices && chunk.choices.length > 0) {
-    //         updater(chunk.choices[0].delta.content);
-    //     }
-    // }
-
-    // let llmOut = await this.hf.chatCompletion({
-    //     model: this.config.model,
-    //     messages: [
-    //         {
-    //             role: "user",
-    //             content: this.config.prompt.replace('%title%', article!.title).replace('%article%', content)
-    //         },
-    //     ]
-    // })
-    // console.log(llmOut.choices)
-
-    // let llmOut = await this.hf.summarization(
-    //     {
-    //         model: this.config.model,
-    //         inputs: `${article!.title} \n ${content}`
-    //     }
-    // )
-    //this.logger.info(llmOut)
-    //updater(`${article!.title}\n\n${llmOut.choices[llmOut.choices.length-1].message.content}`)
-    //updater(`${article!.title}\n${llmOut.summary_text}`)
-//    }
-
     async summaryFromArticle(title: string, content: string, updater: (message: string) => void): Promise<string> {
         if (!this.hf) {
             return Promise.reject("Inference API is improperly configured. Please check server log and fix.")
