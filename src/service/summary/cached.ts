@@ -32,7 +32,7 @@ export class CachedSummaryService implements SummaryService {
         } catch (e) {
             return this.delegatedObject.summaryFromURL(url, emitter)
                 .then(msg => {
-                    if(msg.trim().length==0){
+                    if(!msg || msg.trim().length==0){
                         this.logger.error(`Failed to summarize ${url}`)
                         this.fetchingUrls[url].forEach(async it => {
                             it(`Failed to summarize ${url}`, undefined)
