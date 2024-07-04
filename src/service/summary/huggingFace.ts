@@ -38,12 +38,12 @@ export class HuggingFaceSummaryService extends SimpleSummaryService {
         }
     }
 
-    async summaryFromArticle(title: string, content: string, updater: (message: string) => void): Promise<string> {
+    async summaryFromArticle(title: string, content: string, updater: (message: string) => boolean): Promise<string> {
         if (!this.hf) {
             return Promise.reject("Inference API is improperly configured. Please check server log and fix.")
         }
         let total = ""
-        let update = (str: string) => boolean => {
+        function update(str: string): boolean {
             total += str
             return updater(str)
         }

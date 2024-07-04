@@ -17,7 +17,7 @@ export class OpenAISummaryService extends SimpleSummaryService {
         })
     }
 
-    async summaryFromArticle(title: string, content: string, updater: (message: string) => void): Promise<string> {
+    async summaryFromArticle(title: string, content: string, updater: (message: string) => boolean): Promise<string> {
         let llmOut = await this.api.chat.completions.create({
             model: this.config.model,
             messages: [{
@@ -30,10 +30,12 @@ export class OpenAISummaryService extends SimpleSummaryService {
             }
         })
         let total = ""
-        let update = (str: string) => boolean => {
+
+        function update(str: string): boolean {
             total += str
             return updater(str)
         }
+
         let buf = ""
         let totalTokens
         for await (const chunk of llmOut) {

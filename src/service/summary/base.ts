@@ -30,7 +30,7 @@ export abstract class SimpleSummaryService implements SummaryService {
                 updater(`⚠ The website returned a ${resp.status}, which indicates possible errors in the following summaries.`)
             } else {
                 updater(`⚠ Summary failed due to a ${resp.status} returned from server.`)
-                return
+                return Promise.reject(`⚠ Summary failed due to a ${resp.status} returned from server.`)
             }
         }
         this.logger.info(`Start parsing ${url}`)

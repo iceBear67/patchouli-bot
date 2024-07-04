@@ -42,6 +42,10 @@ export class Listener {
         if (ctx.message.reply_to_message) {
             return this.onReplyingSummaryRequest(ctx)
         }
+        if(!this.config.trustedChats.includes(ctx.chatId)){
+            await this.replyTo("You're not allowed to do this.", ctx, ctx.message)
+            return
+        }
         let result = await this.storageSvc.removeSummary(pattern)
         await this.replyTo(result == 0
                 ? "The requested url is not found in my memory."
