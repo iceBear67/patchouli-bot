@@ -45,6 +45,7 @@ backend = "huggingface" # "huggingface" or "openai"
 # For example, some models supports summary only while others support text-generation only.
 # OpenAI backend ignores this.
 mode = "summary" # or "textgen". 
+trustedChats = [0] # chatId
 
 [cacheConfig]
 # set 0 to disable TTL
@@ -62,5 +63,6 @@ prompt = "Edit your prompt in `prompt.txt`, not this field"
 
 1. `summary [url]` url is not required if you're using replying feature.
 2. `invalidate <pattern>` invalidate cached summaries in the database cache.
+3. `id` reveals current chat id.
 
 There are currently no permissions to prevent these commands from being abused.
