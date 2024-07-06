@@ -51,8 +51,7 @@ export class OpenAISummaryService extends SimpleSummaryService {
             }
         }
         if (buf) update(buf)
-        update(`\n\n`)
-        update(`Used Tokens: ${totalTokens}`)
+        update(`\n\nUsed Tokens: ${totalTokens}`)
         update(`src: ${url}`)
         return Promise.resolve(total)
     }

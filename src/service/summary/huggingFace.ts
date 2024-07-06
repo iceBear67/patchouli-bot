@@ -71,8 +71,7 @@ export class HuggingFaceSummaryService extends SimpleSummaryService {
                 }
             }
             if (buf) update(buf)
-            update(`\n\n`)
-            update(`Used Tokens: ${usedTokens}`)
+            update(`\n\nUsed Tokens: ${usedTokens}`)
             update(`src: ${url}`)
         } else if (this.mode == "summary") {
             let llmOut = await this.hf.summarization(
