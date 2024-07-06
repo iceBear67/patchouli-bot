@@ -43,13 +43,13 @@ export abstract class SimpleSummaryService implements SummaryService {
             updater('\nFAILED to parse article! please contact bot administrator or the bot is banned from this site.')
             return
         }
-        return this.summaryFromArticle(article!.title, content, updater)
+        return this.summaryFromArticle(url,article!.title, content, updater)
     }
 
     protected getPrompt(title: string, content: string): string {
         return this.config.prompt.replace('%title%', title).replace('%article%', content)
     }
 
-    abstract summaryFromArticle(title: string, content: string, updater: (message: string) => boolean): Promise<string>
+    abstract summaryFromArticle(url: string, title: string, content: string, updater: (message: string) => boolean): Promise<string>
 
 }

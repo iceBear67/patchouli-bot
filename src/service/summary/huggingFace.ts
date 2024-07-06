@@ -38,15 +38,17 @@ export class HuggingFaceSummaryService extends SimpleSummaryService {
         }
     }
 
-    async summaryFromArticle(title: string, content: string, updater: (message: string) => boolean): Promise<string> {
+    async summaryFromArticle(url: string, title: string, content: string, updater: (message: string) => boolean): Promise<string> {
         if (!this.hf) {
             return Promise.reject("Inference API is improperly configured. Please check server log and fix.")
         }
         let total = ""
+
         function update(str: string): boolean {
             total += str
             return updater(str)
         }
+
         let usedTokens = 0
         if (this.mode == "textgen") {
             let buf = "";
@@ -69,7 +71,9 @@ export class HuggingFaceSummaryService extends SimpleSummaryService {
                 }
             }
             if (buf) update(buf)
-            update(`\n\nUsed Tokens: ${usedTokens}`)
+            update(`\n\n`)
+            update(`Used Tokens: ${usedTokens}`)
+            update(`src: ${url}`)
         } else if (this.mode == "summary") {
             let llmOut = await this.hf.summarization(
                 {

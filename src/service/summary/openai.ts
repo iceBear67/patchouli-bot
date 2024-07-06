@@ -17,7 +17,7 @@ export class OpenAISummaryService extends SimpleSummaryService {
         })
     }
 
-    async summaryFromArticle(title: string, content: string, updater: (message: string) => boolean): Promise<string> {
+    async summaryFromArticle(url: string, title: string, content: string, updater: (message: string) => boolean): Promise<string> {
         let llmOut = await this.api.chat.completions.create({
             model: this.config.model,
             messages: [{
@@ -51,7 +51,9 @@ export class OpenAISummaryService extends SimpleSummaryService {
             }
         }
         if (buf) update(buf)
-        update(`\n\nUsed Tokens: ${totalTokens}`)
+        update(`\n\n`)
+        update(`Used Tokens: ${totalTokens}`)
+        update(`src: ${url}`)
         return Promise.resolve(total)
     }
 }
